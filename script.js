@@ -87,6 +87,35 @@ function colocarComida() {
     }
 }
 
+// Función para inciar el juego
+function iniciarJuego() {
+    // Limipiar la serpiente y comida
+    serpiente = [{ x: 200, y: 200 }];
+    comida = { x: 300, y: 300 };
+    dx = tamañoCuadricula;
+    dy = 0;
+
+    // Reinicar el intervalo del juego
+    clearInterval(intervaloJuego);
+    intervaloJuego = setInterval(function(){
+        actualizarSerpiente();
+        dibujar();
+
+        for (let i =1 ; i < serpiente.length; i++){
+            if (serpiente[0].x === serpiente[i].x && serpiente[0].y === serpiente[i].y){
+                finDelJuego();
+            }
+        }
+        if (
+            serpiente[0].x < 0 || serpiente[0].x >= contenedorJuego.offsetWidth ||
+            serpiente[0].y < 0 || serpiente[0].y >= contenedorJuego.offsetHeight
+        ) {
+            finDelJuego();
+        }
+    }, velocidadSerpiente);
+}
+
+
 // Función para manejar el fin del juego
 function finDelJuego() {
     clearInterval(intervaloJuego);
