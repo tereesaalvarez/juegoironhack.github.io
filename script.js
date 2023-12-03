@@ -4,6 +4,7 @@ const contenedorJuego = document.getElementById('snakeGame');
 // Tamaño de la cuadrícula y velocidad de la serpiente
 const tamañoCuadricula = 20;
 const velocidadSerpiente = 100;
+const startButton = document.getElementById('startButton');
 
 // Inicializar la serpiente y la comida
 let serpiente = [];
@@ -14,6 +15,9 @@ let puntuacion = 0;
 let puntuacionMaxima = 0;
 let juegoIniciado = false; // Nueva variable para controlar si el juego ha iniciado
 
+startButton.addEventListener('click', function() {
+    iniciarJuego();
+});
 
 document.addEventListener('keydown', function(evento) {
     if (juegoIniciado) {
@@ -84,47 +88,49 @@ function colocarComida() {
 
 // Función para inciar el juego
 function iniciarJuego() {
-    juegoIniciado = true; // Ahora el juego se inicia
-    document.getElementById('instrucciones').style.display = 'none';
-
-    // Ocultar las instrucciones después de 5 segundos (5000 milisegundos)
-    setTimeout(function() {
+    if (!juegoIniciado){
+        juegoIniciado = true; // Ahora el juego se inicia
         document.getElementById('instrucciones').style.display = 'none';
-    }, 5000); // Ajusta el tiempo según tus preferencias
 
-    // Limipiar la serpiente y comida
-    serpiente = [
-        { x: 200, y: 200 },
-        { x: 180, y: 200 },
-        { x: 160, y: 200 }
-    ];
+        // Ocultar las instrucciones después de 5 segundos (5000 milisegundos)
+        setTimeout(function() {
+            document.getElementById('instrucciones').style.display = 'none';
+        }, 5000); // Ajusta el tiempo según tus preferencias
 
-    comida = { x: 300, y: 300 };
-    dx = tamañoCuadricula;
-    dy = 0;
+        // Limipiar la serpiente y comida
+        serpiente = [
+            { x: 200, y: 200 },
+            { x: 180, y: 200 },
+            { x: 160, y: 200 }
+        ];
 
-    // Reiniciar la puntuación
-    puntuacion = 0;
-    actualizarPuntuacion();
+        comida = { x: 300, y: 300 };
+        dx = tamañoCuadricula;
+        dy = 0;
 
-    // Reinicar el intervalo del juego
-    clearInterval(intervaloJuego);
-    intervaloJuego = setInterval(function(){
-        actualizarSerpiente();
-        dibujar();
+        // Reiniciar la puntuación
+        puntuacion = 0;
+        actualizarPuntuacion();
 
-        for (let i =1 ; i < serpiente.length; i++){
-            if (serpiente[0].x === serpiente[i].x && serpiente[0].y === serpiente[i].y){
+        // Reinicar el intervalo del juego
+        clearInterval(intervaloJuego);
+        intervaloJuego = setInterval(function(){
+            actualizarSerpiente();
+            dibujar();
+
+            for (let i =1 ; i < serpiente.length; i++){
+                if (serpiente[0].x === serpiente[i].x && serpiente[0].y === serpiente[i].y){
+                    finDelJuego();
+                }
+            }
+            if (
+                serpiente[0].x < 0 || serpiente[0].x >= contenedorJuego.offsetWidth ||
+                serpiente[0].y < 0 || serpiente[0].y >= contenedorJuego.offsetHeight
+            ) {
                 finDelJuego();
             }
-        }
-        if (
-            serpiente[0].x < 0 || serpiente[0].x >= contenedorJuego.offsetWidth ||
-            serpiente[0].y < 0 || serpiente[0].y >= contenedorJuego.offsetHeight
-        ) {
-            finDelJuego();
-        }
-    }, velocidadSerpiente);
+        }, velocidadSerpiente);
+    }
 }
 
 // Función para actualizar la puntuación
