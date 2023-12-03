@@ -1,3 +1,17 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f8b1b1;
+    color: #0f7895;
+}
+
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #0e6881; 
+}
+
 .tablero {
     position: relative;
     width: 400px;
@@ -22,6 +36,21 @@
 
 .contenedor-juego {
     text-align: center;
+    margin: 50px auto;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: #09647d; 
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #0e557c;
 }
 
 #startButton {
@@ -52,4 +81,12 @@
 .puntuacion, .puntuacionMaxima {
     margin: 5px 0;
     font-size: 16px;
+}
+
+.instrucciones {
+    background-color: rgba(255, 255, 255, 0.8); 
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
 }
