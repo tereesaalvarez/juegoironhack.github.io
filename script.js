@@ -100,8 +100,9 @@ function iniciarJuego() {
 
     // Limipiar la serpiente y comida
     serpiente = [
-        { x: 10, y: 10 },
-        
+        { x: 200, y: 200 },
+        { x: 180, y: 200 },
+        { x: 160, y: 200 }
     ];
 
     comida = { x: 300, y: 300 };
@@ -195,7 +196,7 @@ function updateSnake() {
 
 // Intervalo del juego para actualizar la serpiente y dibujar
 let intervaloJuego = setInterval(function () {
-    actualizarSerpiente();
+    updateSnake();
     dibujar();
 
     for (let i = 1; i < serpiente.length; i++) {
