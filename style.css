@@ -19,3 +19,11 @@
     height: 20px;
     background-color: red;
 }
+
+.contenedor-juego {
+    text-align: center;
+}
+
+#startButton {
+    margin-top: 10px; /* Espacio entre el tablero y el botón */
+}
