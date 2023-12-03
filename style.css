@@ -31,3 +31,25 @@
 #startButton {
     margin-top: 10px; /* Espacio entre el tablero y el botón */
 }
+
+/* haciendolo mobilefirst que se me ha olvidado*/
+@media only scsreen and (max-width: 600px){
+    .tablero {
+        width: 100%;
+        height: 100vw; /*Alto en relacion de la pantalla*/
+
+    }
+
+    #instrucciones {
+        font-size: 14px;
+    }
+}
+
+.puntuacion-container {
+    text-align: center;
+}
+
+.puntuacion, .puntuacionMaxima {
+    margin: 5px 0;
+    font-size: 16px;
+}

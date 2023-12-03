@@ -10,6 +10,8 @@ let serpiente = [{ x: 200, y: 200 }];
 let comida = { x: 300, y: 300 };
 let dx = tamañoCuadricula;
 let dy = 0;
+let puntuacion = 0;
+let puntuacionMaxima = 0;
 
 document.addEventListener('keydown', cambiarDireccion);
 
@@ -97,10 +99,18 @@ function iniciarJuego() {
     }, 5000); // Ajusta el tiempo según tus preferencias
 
     // Limipiar la serpiente y comida
-    serpiente = [{ x: 200, y: 200 }];
+    serpiente = [
+        { x: 10, y: 10 },
+        
+    ];
+
     comida = { x: 300, y: 300 };
     dx = tamañoCuadricula;
     dy = 0;
+
+    // Reiniciar la puntuación
+    puntuacion = 0;
+    actualizarPuntuacion();
 
     // Reinicar el intervalo del juego
     clearInterval(intervaloJuego);
@@ -122,11 +132,65 @@ function iniciarJuego() {
     }, velocidadSerpiente);
 }
 
+// Función para actualizar la puntuación
+function actualizarPuntuacion() {
+    document.getElementById('puntuacion').innerText = 'Puntuación: ' + puntuacion;
+    document.getElementById('puntuacionMaxima').innerText = 'Puntuación Máxima: ' + puntuacionMaxima;
+}
+
+// Función para incrementar la puntuación y manejar la puntuación máxima
+function incrementarPuntuacion() {
+    puntuacion++;
+    if (puntuacion > puntuacionMaxima) {
+        puntuacionMaxima = puntuacion;
+    }
+    actualizarPuntuacion();
+}
+
 
 // Función para manejar el fin del juego
 function finDelJuego() {
     clearInterval(intervaloJuego);
     alert('Fin del Juego');
+}
+
+// Funcion para cambiar la direccion tactil
+function cambiarDireccionTactil(event) {
+    const x = event.touches[0].clientX;
+    const y = event.touches[0].clientY;
+    const anchoPantalla = window.innerWidth;
+    const altoPantalla = window.innerHeight;
+
+    const mitadAncho = anchoPantalla / 2;
+    const mitadAlto = altoPantalla / 2;
+
+    if (x < mitadAncho && Math.abs(x - mitadAncho) > Math.abs(y - mitadAlto)) {
+        // Izquierda
+        cambiarDireccion({ keyCode: 37 });
+    } else if (x >= mitadAncho && Math.abs(x - mitadAncho) > Math.abs(y - mitadAlto)) {
+        // Derecha
+        cambiarDireccion({ keyCode: 39 });
+    } else if (y < mitadAlto && Math.abs(y - mitadAlto) >= Math.abs(x - mitadAncho)) {
+        // Arriba
+        cambiarDireccion({ keyCode: 38 });
+    } else if (y >= mitadAlto && Math.abs(y - mitadAlto) >= Math.abs(x - mitadAncho)) {
+        // Abajo
+        cambiarDireccion({ keyCode: 40 });
+    }
+}
+
+// Función para actualizar la serpiente
+function updateSnake() {
+    const cabeza = { x: serpiente[0].x + dx, y: serpiente[0].y + dy };
+
+    if (cabeza.x === comida.x && cabeza.y === comida.y) {
+        placeFood();
+        incrementarPuntuacion(); // Incrementar la puntuación cuando se come la comida
+    } else {
+        serpiente.pop();
+    }
+
+    serpiente.unshift(cabeza);
 }
 
 // Intervalo del juego para actualizar la serpiente y dibujar
