@@ -89,6 +89,9 @@ function colocarComida() {
 
 // Función para inciar el juego
 function iniciarJuego() {
+    // Ocultar las instrucciones al comenzar el juego
+    document.getElementById('instrucciones').style.display = 'none';
+
     // Limipiar la serpiente y comida
     serpiente = [{ x: 200, y: 200 }];
     comida = { x: 300, y: 300 };
