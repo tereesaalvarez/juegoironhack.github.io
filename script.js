@@ -6,15 +6,20 @@ const tamañoCuadricula = 20;
 const velocidadSerpiente = 100;
 
 // Inicializar la serpiente y la comida
-let serpiente = [{ x: 200, y: 200 }];
+let serpiente = [];
 let comida = { x: 300, y: 300 };
 let dx = tamañoCuadricula;
 let dy = 0;
 let puntuacion = 0;
 let puntuacionMaxima = 0;
+let juegoIniciado = false; // Nueva variable para controlar si el juego ha iniciado
 
-document.addEventListener('keydown', cambiarDireccion);
 
+document.addEventListener('keydown', function(evento) {
+    if (juegoIniciado) {
+        cambiarDireccion(evento);
+    }
+});
 // Funcion para cambiar la dirección de la serpiente
 function cambiarDireccion(evento) {
     const IZQUIERDA = 37;
@@ -62,18 +67,6 @@ function dibujar() {
     contenedorJuego.appendChild(comidaElemento);
 }
 
-// Función para actualizar la posición de la serpiente
-function actualizarSerpiente() {
-    const cabeza = { x: serpiente[0].x + dx, y: serpiente[0].y + dy };
-
-    if (cabeza.x === comida.x && cabeza.y === comida.y) {
-        colocarComida();
-    } else {
-        serpiente.pop();
-    }
-
-    serpiente.unshift(cabeza);
-}
 
 // Función para colocar la comida en una posición aleatoria
 function colocarComida() {
@@ -82,17 +75,18 @@ function colocarComida() {
         y: Math.floor(Math.random() * (contenedorJuego.offsetHeight / tamañoCuadricula)) * tamañoCuadricula
     };
 
-    for (let i = 0; i < serpiente.length; i++) {
-        if (serpiente[i].x === comida.x && serpiente[i].y === comida.y) {
-            colocarComida();
-        }
-    }
+    incrementarPuntuacion();  // Mueve la función de incrementar la puntuación aquí
+
+    // Agregar un nuevo bloque (cola) a la serpiente
+    const nuevaCola = { x: serpiente[serpiente.length - 1].x, y: serpiente[serpiente.length - 1].y };
+    serpiente.push(nuevaCola);
 }
 
 // Función para inciar el juego
 function iniciarJuego() {
-    // Ocultar las instrucciones al comenzar el juego
+    juegoIniciado = true; // Ahora el juego se inicia
     document.getElementById('instrucciones').style.display = 'none';
+
     // Ocultar las instrucciones después de 5 segundos (5000 milisegundos)
     setTimeout(function() {
         document.getElementById('instrucciones').style.display = 'none';
@@ -180,23 +174,30 @@ function cambiarDireccionTactil(event) {
     }
 }
 
-// Función para actualizar la serpiente
-function updateSnake() {
+// Función para actualizar la posición de la serpiente
+function actualizarSerpiente() {
     const cabeza = { x: serpiente[0].x + dx, y: serpiente[0].y + dy };
 
+    // Verificar si la cabeza alcanza la comida
     if (cabeza.x === comida.x && cabeza.y === comida.y) {
-        placeFood();
-        incrementarPuntuacion(); // Incrementar la puntuación cuando se come la comida
+        // Agregar un nuevo bloque (cola) a la serpiente
+        const nuevaCola = { x: serpiente[serpiente.length - 1].x, y: serpiente[serpiente.length - 1].y };
+        serpiente.push(nuevaCola);
+
+        // Colocar nueva comida
+        colocarComida();
+
+        // Incrementar puntuación (si es necesario)
+        incrementarPuntuacion();
     } else {
         serpiente.pop();
     }
 
     serpiente.unshift(cabeza);
 }
-
 // Intervalo del juego para actualizar la serpiente y dibujar
 let intervaloJuego = setInterval(function () {
-    updateSnake();
+    actualizarSerpiente();
     dibujar();
 
     for (let i = 1; i < serpiente.length; i++) {
