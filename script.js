@@ -91,6 +91,10 @@ function colocarComida() {
 function iniciarJuego() {
     // Ocultar las instrucciones al comenzar el juego
     document.getElementById('instrucciones').style.display = 'none';
+    // Ocultar las instrucciones después de 5 segundos (5000 milisegundos)
+    setTimeout(function() {
+        document.getElementById('instrucciones').style.display = 'none';
+    }, 5000); // Ajusta el tiempo según tus preferencias
 
     // Limipiar la serpiente y comida
     serpiente = [{ x: 200, y: 200 }];
