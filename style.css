@@ -91,4 +91,6 @@ button {
 
 #restartButton {
     margin-top: 10px;
+    display:block;
+    margin: 10px auto;
 }
