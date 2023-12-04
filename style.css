@@ -88,3 +88,7 @@ button {
     margin-top: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
 }
+
+#restartButton {
+    margin-top: 10px;
+}

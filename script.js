@@ -5,6 +5,10 @@ const contenedorJuego = document.getElementById('snakeGame');
 const tamañoCuadricula = 20;
 const velocidadSerpiente = 100;
 const startButton = document.getElementById('startButton');
+const restartButton = document.getElementById('restartButton');
+const puntuacionElement = document.getElementById('puntuacion');
+const puntuacionMaximaElement = document.getElementById('puntuacionMaxima');
+
 
 // Inicializar la serpiente y la comida
 let serpiente = [];
@@ -18,6 +22,9 @@ let juegoIniciado = false; // Nueva variable para controlar si el juego ha inici
 startButton.addEventListener('click', function() {
     iniciarJuego();
 });
+
+// Asociar la función de reinicio al botón
+restartButton.addEventListener('click', reiniciarJuego);
 
 document.addEventListener('keydown', function(evento) {
     if (juegoIniciado) {
@@ -153,7 +160,52 @@ function incrementarPuntuacion() {
 function finDelJuego() {
     clearInterval(intervaloJuego);
     alert('Fin del Juego');
+    // Mostrar el botón de reinicio
+    restartButton.style.display = 'block';
 }
+
+function reiniciarJuego() {
+    // Limpiar la serpiente y la comida
+    serpiente = [
+        { x: 200, y: 200 },
+        { x: 180, y: 200 },
+        { x: 160, y: 200 }
+    ];
+    comida = { x: 300, y: 300 };
+    dx = tamañoCuadricula;
+    dy = 0;
+
+    // Reiniciar la puntuación
+    puntuacion = 0;
+    actualizarPuntuacion();
+
+    // Reiniciar el intervalo del juego
+    clearInterval(intervaloJuego);
+    intervaloJuego = setInterval(function () {
+        actualizarSerpiente();
+        dibujar();
+
+        for (let i = 1; i < serpiente.length; i++) {
+            if (serpiente[0].x === serpiente[i].x && serpiente[0].y === serpiente[i].y) {
+                finDelJuego();
+            }
+        }
+        if (
+            serpiente[0].x < 0 || serpiente[0].x >= contenedorJuego.offsetWidth ||
+            serpiente[0].y < 0 || serpiente[0].y >= contenedorJuego.offsetHeight
+        ) {
+            finDelJuego();
+        }
+    }, velocidadSerpiente);
+
+    // Ocultar el botón de reinicio
+    restartButton.style.display = 'none';
+    // Mostrar las instrucciones después de 5 segundos (5000 milisegundos)
+    setTimeout(function () {
+        document.getElementById('instrucciones').style.display = 'block';
+    }, 5000);
+}
+
 
 // Funcion para cambiar la direccion tactil
 function cambiarDireccionTactil(event) {

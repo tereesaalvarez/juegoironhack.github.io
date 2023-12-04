@@ -9,6 +9,10 @@
     <div class="contenedor-juego">
 
         <h1>Juego de la Serpiente</h1>
+        <div class="puntuacion-container">
+            <p class="puntuacion" id="puntuacion">Puntuación: 0</p>
+            <p class="puntuacionMaxima" id="puntuacionMaxima">Puntuación Máxima: 0</p>
+        </div>
         <div class="tablero" id="snakeGame" ></div>
         <div id="instrucciones" class="instrucciones">
             <p>Bienvenido al juego de la serpiente</p>
@@ -17,6 +21,7 @@
 
         </div>
         <button id="startButton">Comenzar juego</button>
+        <button id="restartButton" style="display: none;">Reiniciar juego</button>
     </div>
     <script type="text/javascript" src="script.js"></script>
 </body>
